@@ -1,57 +1,67 @@
-import { Logger } from '@nestjs/common';
-import * as process from 'process';
-import { DataSource } from 'typeorm';
+import type { QueryResultRow } from "pg";
+import type { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { Logger } from "@nestjs/common";
+import { DataSource } from "typeorm";
 
-import { configService } from '../data-source';
-
-class InitDatabase {
-  #logger = new Logger(InitDatabase.name);
-  #client: DataSource;
+import AppDataSource from "../data-source";
+class PrestartPostgreSQL {
+  static logger: Logger = new Logger(PrestartPostgreSQL.name);
+  private readonly _dataSource: DataSource;
+  private readonly _database: string;
 
   constructor() {
-    const options = { ...configService.databaseConfig, database: 'sys' };
+    const { options } = AppDataSource;
 
-    this.#client = new DataSource(options);
+    this._database = options.database as string;
+
+    this._dataSource = new DataSource({
+      ...AppDataSource.options,
+      database: "postgres",
+    } as PostgresConnectionOptions);
   }
-
   async execute(): Promise<void> {
-    await this.#connect();
-    await this.#createDBIfNotExists();
-    await this.#disconnect(0);
+    await this._connection();
+    await this._createDBIfNotExists();
+    await this._disconnect(0);
   }
 
-  async #connect(): Promise<void> {
+  private async _createDBIfNotExists(): Promise<void> {
     try {
-      await this.#client.initialize();
+      const result = await this._dataSource.query(
+        "SELECT datname FROM pg_database"
+      );
+      const isExists = result.some(
+        (row: QueryResultRow) => row["datname"] === this._database
+      );
 
-      this.#logger.log('Connected');
+      if (!isExists) {
+        await this._dataSource.query(`CREATE DATABASE ${this._database}`);
+
+        return PrestartPostgreSQL.logger.log("Project DB has been created.");
+      }
+
+      PrestartPostgreSQL.logger.log("Project DB already exists.");
     } catch (e) {
-      this.#logger.error(`CONNECTION ERROR: ${e}`.replace(' error: ', ' '));
-
-      await this.#disconnect(1);
+      PrestartPostgreSQL.logger.error(`QUERY FAILED: ${e}`);
+      await this._disconnect(1);
     }
   }
-
-  async #disconnect(code: number): Promise<void> {
-    try {
-      await this.#client.destroy();
-      process.exit(code);
-    } catch (e) {
-      process.exit(1);
-    }
+  private async _disconnect(code: number): Promise<void> {
+    await this._dataSource.destroy();
+    process.exit(code);
   }
 
-  async #createDBIfNotExists(): Promise<void> {
+  private async _connection(): Promise<void> {
     try {
-      await this.#client.query(`CREATE DATABASE IF NOT EXISTS ${configService.databaseConfig.database}`);
-
-      this.#logger.log('Project DB has been initialized.');
+      await this._dataSource.initialize();
+      PrestartPostgreSQL.logger.log("Connected");
     } catch (e) {
-      this.#logger.error(`QUERY FAILED: ${e}`);
-
-      await this.#disconnect(1);
+      PrestartPostgreSQL.logger.error(
+        `CONNECTION ERROR: ${e}`.replace(" error: ", " ")
+      );
+      await this._disconnect(1);
     }
   }
 }
 
-new InitDatabase().execute();
+new PrestartPostgreSQL().execute();

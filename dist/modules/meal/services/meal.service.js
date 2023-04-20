@@ -20,7 +20,7 @@ let MealService = class MealService {
     constructor(mealsRepository) {
         this.mealsRepository = mealsRepository;
     }
-    getAllMeals() {
+    async getAllMeals() {
         return this.mealsRepository.find();
     }
 };

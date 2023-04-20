@@ -18,41 +18,40 @@ let AppConfigService = class AppConfigService {
         this._configService = _configService;
     }
     get port() {
-        return this._configService.get('PORT');
+        return this._configService.get("PORT");
     }
     get clientUrl() {
-        return this._configService.get('APP_CLIENT_URL');
+        return this._configService.get("APP_CLIENT_URL");
     }
     get databaseConfig() {
         return {
-            type: 'mysql',
-            host: this._configService.get('DB_HOST'),
-            port: this._configService.get('DB_PORT'),
-            username: this._configService.get('DB_USER'),
-            password: this._configService.get('DB_PASSWORD'),
-            database: this._configService.get('DB_NAME'),
-            connectorPackage: 'mysql2',
-            logger: 'advanced-console',
-            logging: 'all',
+            type: "postgres",
+            host: this._configService.get("DB_HOST"),
+            port: this._configService.get("DB_PORT"),
+            username: this._configService.get("DB_USER"),
+            password: this._configService.get("DB_PASSWORD"),
+            database: this._configService.get("DB_NAME"),
+            logger: "advanced-console",
+            logging: "all",
             entities: _entities_1.ENTITIES,
         };
     }
     get jwtConfig() {
         return {
-            secret: this._configService.get('JWT_SECRET'),
+            secret: this._configService.get("JWT_SECRET"),
             signOptions: {
-                expiresIn: this._configService.get('JWT_EXPIRES_IN'),
+                expiresIn: this._configService.get("JWT_EXPIRES_IN"),
             },
         };
     }
     get passwordEncoderSalt() {
-        return this._configService.get('ENCODER_SALT_ROUND');
+        return this._configService.get("ENCODER_SALT_ROUND");
     }
     get swaggerConfig() {
         return {
-            title: this._configService.get('SG_TITLE'),
-            description: this._configService.get('SG_DESCRIPTION'),
-            path: this._configService.get('SG_PATH'),
+            title: this._configService.get("SG_TITLE"),
+            description: this._configService.get("SG_DESCRIPTION"),
+            path: this._configService.get("SG_PATH"),
         };
     }
 };

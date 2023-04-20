@@ -1,4 +1,4 @@
-import { Meal } from "@db/entities";
+import { Meal, User } from "@db/entities";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import type { Repository } from "typeorm";
@@ -10,7 +10,7 @@ export class MealService {
     private mealsRepository: Repository<Meal>
   ) {}
 
-  getAllMeals(): Promise<Meal[]> {
+  async getAllMeals(): Promise<Meal[]> {
     return this.mealsRepository.find();
   }
 }

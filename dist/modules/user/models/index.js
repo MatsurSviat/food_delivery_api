@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SelfDto = void 0;
-var self_dto_1 = require("./self.dto");
-Object.defineProperty(exports, "SelfDto", { enumerable: true, get: function () { return self_dto_1.SelfDto; } });
+exports.SelfResponse = void 0;
+var selfResponse_1 = require("./selfResponse");
+Object.defineProperty(exports, "SelfResponse", { enumerable: true, get: function () { return selfResponse_1.SelfResponse; } });
 //# sourceMappingURL=index.js.map

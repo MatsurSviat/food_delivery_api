@@ -1,1 +1,1 @@
-export { SelfDto } from './self.dto';
+export { SelfResponse } from "./selfResponse";

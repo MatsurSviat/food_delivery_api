@@ -16,6 +16,7 @@ exports.UserService = void 0;
 const entities_1 = require("../../../db/entities");
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const models_1 = require("../models");
 let UserService = class UserService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
@@ -23,8 +24,55 @@ let UserService = class UserService {
     createUser(body) {
         return this.usersRepository.save(body);
     }
-    getUserByEmail(email) {
-        return this.usersRepository.findOne({ where: { email } });
+    async self(userId) {
+        const rawResult = await this.usersRepository
+            .createQueryBuilder("user")
+            .select(["user", `array_agg(favoriteMeals.id) AS "favoriteMeals"`])
+            .leftJoin("user.favoriteMeals", "favoriteMeals")
+            .where("user.id = :userId", { userId })
+            .groupBy("user.id")
+            .getRawOne();
+        return new models_1.SelfResponse(rawResult);
+    }
+    async getAllFavoriteMeals(userId) {
+        const user = await this.usersRepository.findOne({
+            where: { id: userId },
+            relations: ["favoriteMeals"],
+        });
+        return user.favoriteMeals;
+    }
+    async addToFavorite(userId, mealId) {
+        const userFromDB = await this.usersRepository.findOne({
+            where: { id: userId },
+            relations: ["favoriteMeals"],
+        });
+        if (!userFromDB) {
+            throw new common_1.NotFoundException("User not found");
+        }
+        const isFavorite = userFromDB.favoriteMeals.find((favoriteMeal) => favoriteMeal.id === mealId);
+        if (isFavorite) {
+            throw new common_1.BadRequestException("The meal is already favorite");
+        }
+        await this.usersRepository.save(Object.assign(Object.assign({}, userFromDB), { favoriteMeals: [...userFromDB.favoriteMeals, { id: mealId }] }));
+        return {
+            message: "ok",
+        };
+    }
+    async deleteFromFavorite(userId, mealId) {
+        const userFromDB = await this.usersRepository.findOne({
+            where: { id: userId },
+            relations: ["favoriteMeals"],
+        });
+        if (!userFromDB) {
+            throw new common_1.NotFoundException("User not found");
+        }
+        userFromDB.favoriteMeals = userFromDB.favoriteMeals.filter((meal) => {
+            return meal.id !== mealId;
+        });
+        await this.usersRepository.save(userFromDB);
+        return {
+            message: "ok",
+        };
     }
 };
 UserService = __decorate([
