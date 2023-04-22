@@ -6,7 +6,5 @@ export declare class Order {
     items: OrderItem[];
     customer: User;
     courier: Courier;
-    deliveryCost: number;
-    deliveryTime: number;
     completed: boolean;
 }

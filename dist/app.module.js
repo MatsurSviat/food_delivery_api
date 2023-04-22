@@ -15,20 +15,24 @@ const shared_module_1 = require("./shared/shared.module");
 const modules_1 = require("./modules");
 const meal_service_1 = require("./modules/meal/services/meal.service");
 const meal_module_1 = require("./modules/meal/meal.module");
+const order_module_1 = require("./modules/order/order.module");
+require("./modules/order/controllers/order.controller");
+const order_service_1 = require("./modules/order/services/order.service");
 let AppModule = class AppModule {
     configure(consumer) {
-        consumer.apply(middlewares_1.RequestLoggerMiddleware).forRoutes('*');
+        consumer.apply(middlewares_1.RequestLoggerMiddleware).forRoutes("*");
     }
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [shared_module_1.SharedModule.share(), ...modules_1.APP_MODULES, meal_module_1.MealModule],
+        imports: [shared_module_1.SharedModule.share(), ...modules_1.APP_MODULES, meal_module_1.MealModule, order_module_1.OrderModule],
         providers: [
             {
                 provide: core_1.APP_FILTER,
                 useClass: filters_1.AllExceptionFilter,
             },
             meal_service_1.MealService,
+            order_service_1.OrderService,
         ],
     })
 ], AppModule);

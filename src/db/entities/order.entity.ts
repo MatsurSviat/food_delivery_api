@@ -23,12 +23,6 @@ export class Order {
   @ManyToOne(() => Courier)
   courier: Courier;
 
-  @Column({ type: "int" })
-  deliveryCost: number;
-
-  @Column({ type: "int" })
-  deliveryTime: number;
-
   @Column({ type: "boolean" })
   completed: boolean;
 }

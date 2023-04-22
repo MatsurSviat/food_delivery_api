@@ -17,7 +17,7 @@ const orderItem_entity_1 = require("./orderItem.entity");
 const user_entity_1 = require("./user.entity");
 let Order = class Order {
     static _OPENAPI_METADATA_FACTORY() {
-        return { id: { required: true, type: () => String }, items: { required: true, type: () => [require("./orderItem.entity").OrderItem] }, customer: { required: true, type: () => require("./user.entity").User }, courier: { required: true, type: () => require("./courier.entity").Courier }, deliveryCost: { required: true, type: () => Number }, deliveryTime: { required: true, type: () => Number }, completed: { required: true, type: () => Boolean } };
+        return { id: { required: true, type: () => String }, items: { required: true, type: () => [require("./orderItem.entity").OrderItem] }, customer: { required: true, type: () => require("./user.entity").User }, courier: { required: true, type: () => require("./courier.entity").Courier }, completed: { required: true, type: () => Boolean } };
     }
 };
 __decorate([
@@ -36,14 +36,6 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => courier_entity_1.Courier),
     __metadata("design:type", courier_entity_1.Courier)
 ], Order.prototype, "courier", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: "int" }),
-    __metadata("design:type", Number)
-], Order.prototype, "deliveryCost", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: "int" }),
-    __metadata("design:type", Number)
-], Order.prototype, "deliveryTime", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "boolean" }),
     __metadata("design:type", Boolean)

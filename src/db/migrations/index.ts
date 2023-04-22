@@ -1,3 +1,3 @@
-import { CreateMigration1681750153579 } from "./1681750153579-CreateMigration";
+import { CreateMigration1682160630035 } from "./1682160630035-CreateMigration";
 
-export const MIGRATIONS = [CreateMigration1681750153579];
+export const MIGRATIONS = [CreateMigration1682160630035];
