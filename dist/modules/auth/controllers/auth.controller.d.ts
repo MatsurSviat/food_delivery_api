@@ -7,4 +7,9 @@ export declare class AuthController {
     signIn(user: User): Promise<string>;
     signOut(body: RegisterDto): Promise<void>;
     signUp(body: RegisterDto): Promise<void>;
+    googleAuth(): Promise<void>;
+    googleAuthRedirect(req: any): Promise<{
+        user: any;
+        token: string;
+    }>;
 }

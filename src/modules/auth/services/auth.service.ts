@@ -53,7 +53,12 @@ export class AuthService {
   }
 
   signIn(user: User): string {
-    const payload: ITokenPayload = { id: user.id, photo: user.photo, userName: user.userName, email: user.email };
+    const payload: ITokenPayload = {
+      id: user.id,
+      photo: user.photo,
+      userName: user.userName,
+      email: user.email,
+    };
 
     return this._jwtService.sign(payload);
   }

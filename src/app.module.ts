@@ -9,8 +9,8 @@ import { APP_MODULES } from "./modules";
 import { MealService } from "./modules/meal/services/meal.service";
 import { MealModule } from "./modules/meal/meal.module";
 import { OrderModule } from "./modules/order/order.module";
-import { OrderController } from "./modules/order/controllers/order.controller";
 import { OrderService } from "./modules/order/services/order.service";
+import { GoogleStrategy } from "@modules/auth/strategies/google.strategy";
 
 @Module({
   imports: [SharedModule.share(), ...APP_MODULES, MealModule, OrderModule],
@@ -21,6 +21,7 @@ import { OrderService } from "./modules/order/services/order.service";
     },
     MealService,
     OrderService,
+    GoogleStrategy,
   ],
 })
 export class AppModule implements NestModule {

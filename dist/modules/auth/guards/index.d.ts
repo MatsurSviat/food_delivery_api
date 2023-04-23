@@ -1,2 +1,3 @@
-export { JwtAuthGuard } from './jwt-auth.guard';
-export { LocalAuthGuard } from './local-auth.guard';
+export { JwtAuthGuard } from "./jwt-auth.guard";
+export { LocalAuthGuard } from "./local-auth.guard";
+export { GoogleOauthGuard } from "./google-oauth.guard";

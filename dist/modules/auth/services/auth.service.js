@@ -62,7 +62,12 @@ let AuthService = AuthService_1 = class AuthService {
         }
     }
     signIn(user) {
-        const payload = { id: user.id, photo: user.photo, userName: user.userName, email: user.email };
+        const payload = {
+            id: user.id,
+            photo: user.photo,
+            userName: user.userName,
+            email: user.email,
+        };
         return this._jwtService.sign(payload);
     }
     async _validateCredentials(body) {

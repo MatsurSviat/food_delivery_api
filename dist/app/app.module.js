@@ -9,15 +9,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
-const filters_1 = require("./core/filters");
-const middlewares_1 = require("./core/middlewares");
-const shared_module_1 = require("./shared/shared.module");
-const modules_1 = require("./modules");
-const meal_service_1 = require("./modules/meal/services/meal.service");
-const meal_module_1 = require("./modules/meal/meal.module");
-const order_module_1 = require("./modules/order/order.module");
-const order_service_1 = require("./modules/order/services/order.service");
-const google_strategy_1 = require("./modules/auth/strategies/google.strategy");
+const filters_1 = require("../core/filters");
+const middlewares_1 = require("../core/middlewares");
+const shared_module_1 = require("../shared/shared.module");
+const modules_1 = require("../modules");
+const meal_service_1 = require("../modules/meal/services/meal.service");
+const meal_module_1 = require("../modules/meal/meal.module");
+const order_module_1 = require("../modules/order/order.module");
+const order_service_1 = require("../modules/order/services/order.service");
+const app_controller_1 = require("./app.controller");
+const app_service_1 = require("./app.service");
+const google_strategy_1 = require("../modules/auth/strategies/google.strategy");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(middlewares_1.RequestLoggerMiddleware).forRoutes("*");
@@ -33,8 +35,10 @@ AppModule = __decorate([
             },
             meal_service_1.MealService,
             order_service_1.OrderService,
+            app_service_1.AppService,
             google_strategy_1.GoogleStrategy,
         ],
+        controllers: [app_controller_1.AppController],
     })
 ], AppModule);
 exports.AppModule = AppModule;

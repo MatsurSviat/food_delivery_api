@@ -8,4 +8,4 @@ export { Meal } from "./meal.entity";
 export { Order } from "./order.entity";
 export { Courier } from "./courier.entity";
 export { OrderItem } from "./orderItem.entity";
-export declare const ENTITIES: (typeof Order | typeof OrderItem | typeof User | typeof Courier | typeof Meal)[];
+export declare const ENTITIES: (typeof Courier | typeof Meal | typeof OrderItem | typeof Order | typeof User)[];

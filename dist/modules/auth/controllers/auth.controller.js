@@ -35,6 +35,12 @@ let AuthController = class AuthController {
     async signUp(body) {
         return this._authService.signUp(body);
     }
+    async googleAuth() { }
+    async googleAuthRedirect(req) {
+        const user = req.user;
+        const token = this._authService.signIn(user);
+        return { user, token };
+    }
 };
 __decorate([
     (0, swagger_1.ApiBody)({ type: models_1.CredentialsDto }),
@@ -69,6 +75,25 @@ __decorate([
     __metadata("design:paramtypes", [models_1.RegisterDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signUp", null);
+__decorate([
+    (0, common_1.Get)("google"),
+    (0, decorators_1.Public)(),
+    (0, common_1.UseGuards)(guards_1.GoogleOauthGuard),
+    openapi.ApiResponse({ status: 200 }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "googleAuth", null);
+__decorate([
+    (0, common_1.Get)("google/callback"),
+    (0, decorators_1.Public)(),
+    (0, common_1.UseGuards)(guards_1.GoogleOauthGuard),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "googleAuthRedirect", null);
 AuthController = __decorate([
     (0, swagger_1.ApiTags)("Auth"),
     (0, common_1.Controller)("auth"),
