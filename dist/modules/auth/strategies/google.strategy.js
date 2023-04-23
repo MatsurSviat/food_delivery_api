@@ -16,7 +16,7 @@ const passport_google_oauth2_1 = require("passport-google-oauth2");
 let GoogleStrategy = class GoogleStrategy extends (0, passport_1.PassportStrategy)(passport_google_oauth2_1.Strategy, "google") {
     constructor() {
         super({
-            clientID: "139880381289-b3podjp8o5vqc05e54ekqthjs6mpdkui.apps.googleusercontent.com",
+            clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: "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",
             callbackURL: "http://localhost:4000/api/auth/google/callback",
             scope: ["email", "profile"],
